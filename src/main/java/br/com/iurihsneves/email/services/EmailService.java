@@ -1,6 +1,8 @@
 package br.com.iurihsneves.email.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -16,7 +18,7 @@ import br.com.iurihsneves.email.repositories.EmailRepository;
 public class EmailService {
     
     @Autowired
-    EmailRepository emailRepository;
+    private EmailRepository emailRepository;
 
     @Autowired
     private JavaMailSender emailSender;
@@ -42,6 +44,12 @@ public class EmailService {
             return emailRepository.save(emailModel);
         } 
 
+    }
+
+    public Optional<List<EmailModel>> getFailedEmails() {
+        Optional<List<EmailModel>> failedEmails = emailRepository.findAllByStatusEmail(StatusEmail.ERROR);
+
+        return failedEmails;
     }
 
 }
