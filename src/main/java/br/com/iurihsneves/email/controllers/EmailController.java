@@ -40,14 +40,26 @@ public class EmailController {
 
     }
 
-    @GetMapping("/getting-failed-email")
-    public ResponseEntity<List<EmailModel>> gettingEmail() {
+    @GetMapping("/get-failed-email")
+    public ResponseEntity<List<EmailModel>> getFailedEmail() {
         Optional<List<EmailModel>> failedEmailList = emailService.getFailedEmails();
 
-        if(failedEmailList.isPresent()) {
+        if(!failedEmailList.get().isEmpty()) {
             return new ResponseEntity<>(failedEmailList.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(failedEmailList.get(), HttpStatus.NO_CONTENT);
+        }
+
+    }
+
+    @GetMapping("/get-successful-email")
+    public ResponseEntity<List<EmailModel>> getSuccessEmail() {
+        Optional<List<EmailModel>> successfulEmailList = emailService.getSuccessfulEmail();
+
+        if(!successfulEmailList.get().isEmpty()) {
+            return new ResponseEntity<>(successfulEmailList.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(successfulEmailList.get(), HttpStatus.NO_CONTENT);
         }
 
     }

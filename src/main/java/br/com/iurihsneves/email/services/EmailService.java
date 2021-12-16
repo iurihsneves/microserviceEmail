@@ -52,4 +52,10 @@ public class EmailService {
         return failedEmails;
     }
 
+    public Optional<List<EmailModel>> getSuccessfulEmail() {
+        Optional<List<EmailModel>> successfulEmails = emailRepository.findAllByStatusEmail(StatusEmail.SENT);
+
+        return successfulEmails;
+    }
+
 }
