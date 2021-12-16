@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.iurihsneves.email.dto.EmailDto;
 import br.com.iurihsneves.email.models.EmailModel;
+import br.com.iurihsneves.email.producer.EmailProducer;
 import br.com.iurihsneves.email.services.EmailService;
 
 @RestController
@@ -23,6 +24,9 @@ public class EmailController {
     
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    EmailProducer emailProducer;
 
     @PostMapping("/sending-email")
     public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDto emailDto) {
@@ -35,7 +39,9 @@ public class EmailController {
         }
         
         emailService.sendEmail(emailModel);
-
+        
+        emailProducer.send(emailModel);
+        
         return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
 
     }
